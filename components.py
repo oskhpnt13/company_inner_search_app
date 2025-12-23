@@ -325,3 +325,19 @@ def display_contact_llm_response(llm_response):
         content["file_info_list"] = file_info_list
 
     return content
+
+
+def display_sidebar():
+    """
+    サイドバーの内容を表示
+    """
+    with st.sidebar:
+        st.header(ct.SIDEBAR_TITLE)
+        purpose = st.radio("利用目的を選択してください", ct.SIDEBAR_OPTIONS)
+
+        if purpose == ct.SIDEBAR_OPTIONS[0]:  # 社内文書検索
+            st.markdown(ct.SIDEBAR_DOC_SEARCH_DESCRIPTION)
+            st.markdown(ct.SIDEBAR_DOC_SEARCH_EXAMPLE)
+        elif purpose == ct.SIDEBAR_OPTIONS[1]:  # 社内問い合わせ
+            st.markdown(ct.SIDEBAR_INQUIRY_DESCRIPTION)
+            st.markdown(ct.SIDEBAR_INQUIRY_EXAMPLE)
