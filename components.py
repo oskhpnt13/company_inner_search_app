@@ -357,7 +357,7 @@ def display_sidebar():
         st.markdown("【「社内問い合わせ」を選択した場合】")
         st.info(ct.SIDEBAR_INQUIRY_DESCRIPTION)
         st.markdown(
-            '<div style="background-color: #f3f3f3; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;">'
+            '<div style="background-color: #ffffff; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;">'
             '<b>【入力例】<br>人事部に所属している従業員情報を一覧化して</b>'
             '</div>',
             unsafe_allow_html=True
