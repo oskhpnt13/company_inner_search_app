@@ -338,6 +338,8 @@ def display_sidebar():
     """
     with st.sidebar:
         st.header(ct.SIDEBAR_TITLE)
+
+        # ラジオボタンを追加
         purpose = st.radio("", ct.SIDEBAR_OPTIONS)
         st.divider()  # ラインを追加
 

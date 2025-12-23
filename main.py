@@ -65,7 +65,7 @@ st.title(ct.APP_NAME)
 # 初期メッセージ
 with st.chat_message("assistant"):
     st.markdown(
-        '<div style="background-color: #d4f8d4; padding: 10px; border-radius: 5px;">'
+        '<div style="background-color: #d4f8d4; color: #006400; padding: 10px; border-radius: 5px;">'
         'こんにちは。私は社内文書の情報をもとに回答する生成AIチャットボットです。'
         'サイドバーで利用目的を選択し、画面下部のチャット欄からメッセージを送信してください。</div>',
         unsafe_allow_html=True
