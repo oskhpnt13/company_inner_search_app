@@ -347,7 +347,7 @@ def display_sidebar():
         st.markdown("<b>【「社内文書検索」を選択した場合】</b>", unsafe_allow_html=True)
         st.info(ct.SIDEBAR_DOC_SEARCH_DESCRIPTION)
         st.markdown(
-            '<div style="background-color: #ffffff; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;">'
+            '<div style="background-color: #ffffff; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;" margin-bottom: 20px;>'
             '<b>【入力例】<br>社員の育成方針に関するMTGの議事録</b>'
             '</div>',
             unsafe_allow_html=True
