@@ -72,12 +72,11 @@ with st.chat_message("assistant"):
     )
 
 # 注意メッセージ
-with st.chat_message("assistant"):
-    st.markdown(
-        '<div style="background-color: #fff3cd; padding: 10px; border-radius: 5px;">'
-        '⚠️ 具体的に入力したほうが期待通りの回答を得やすいです。</div>',
-        unsafe_allow_html=True
-    )
+st.markdown(
+    '<div style="background-color: #fff3cd; color: #d4a017; padding: 10px; border-radius: 5px;">'
+    '⚠ 具体的に入力したほうが期待通りの回答を得やすいです。</div>',
+    unsafe_allow_html=True
+)
 
 
 ############################################################
