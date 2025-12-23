@@ -344,7 +344,7 @@ def display_sidebar():
         st.divider()  # ラインを追加
 
         # 社内文書検索の説明を常に表示
-        st.markdown("<b>【「社内文書検索」を選択した場合】</b>")
+        st.markdown("<b>【「社内文書検索」を選択した場合】</b>", unsafe_allow_html=True)
         st.info(ct.SIDEBAR_DOC_SEARCH_DESCRIPTION)
         st.markdown(
             '<div style="background-color: #ffffff; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;">'
@@ -354,7 +354,7 @@ def display_sidebar():
             )
 
         # 社内問い合わせの説明を常に表示
-        st.markdown("<b>【「社内問い合わせ」を選択した場合】</b>")
+        st.markdown("<b>【「社内問い合わせ」を選択した場合】</b>", unsafe_allow_html=True)
         st.info(ct.SIDEBAR_INQUIRY_DESCRIPTION)
         st.markdown(
             '<div style="background-color: #ffffff; font-family: monospace; padding: 10px; border-radius: 5px; font-size: 14px;">'
