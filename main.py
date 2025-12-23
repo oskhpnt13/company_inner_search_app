@@ -71,6 +71,8 @@ with st.chat_message("assistant"):
         unsafe_allow_html=True
     )
 
+    st.write("")  # 空白行を挿入
+
 # 注意メッセージ
     st.markdown(
         '<div style="background-color: #fff3cd; color: #d4a017; padding: 10px; border-radius: 5px;">'
