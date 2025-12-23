@@ -42,7 +42,12 @@ def display_initial_ai_message():
     """
     with st.chat_message("assistant"):
         # 「st.success()」とすると緑枠で表示される
-        st.markdown("こんにちは。私は社内文書の情報をもとに回答する生成AIチャットボットです。上記で利用目的を選択し、画面下部のチャット欄からメッセージを送信してください。")
+        st.markdown(
+            '<div style="background-color: #d4f8d4; color: #006400; padding: 10px; border-radius: 5px;">'
+            'こんにちは。私は社内文書の情報をもとに回答する生成AIチャットボットです。'
+            'サイドバーで利用目的を選択し、画面下部のチャット欄からメッセージを送信してください。</div>',
+            unsafe_allow_html=True
+        )
 
         # 「社内文書検索」の機能説明
         st.markdown("**【「社内文書検索」を選択した場合】**")
@@ -333,12 +338,15 @@ def display_sidebar():
     """
     with st.sidebar:
         st.header(ct.SIDEBAR_TITLE)
+        purpose = st.radio("", ct.SIDEBAR_OPTIONS)
         st.divider()  # ラインを追加
 
         # 社内文書検索の説明を常に表示
+        st.markdown("【「社内文書検索」を選択した場合】")
         st.info(ct.SIDEBAR_DOC_SEARCH_DESCRIPTION)
         st.code(ct.SIDEBAR_DOC_SEARCH_EXAMPLE, language=None)
 
         # 社内問い合わせの説明を常に表示
+        st.markdown("【「社内問い合わせ」を選択した場合】")
         st.info(ct.SIDEBAR_INQUIRY_DESCRIPTION)
         st.code(ct.SIDEBAR_INQUIRY_EXAMPLE, language=None)
