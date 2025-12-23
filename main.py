@@ -32,6 +32,9 @@ st.set_page_config(
 # ログ出力を行うためのロガーの設定
 logger = logging.getLogger(ct.LOGGER_NAME)
 
+if "mode" not in st.session_state:
+    st.session_state.mode = "default"  # 例: "chat" とか任意
+
 
 ############################################################
 # 3. 初期化処理
