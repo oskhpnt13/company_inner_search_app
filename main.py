@@ -56,16 +56,26 @@ if not "initialized" in st.session_state:
 ############################################################
 # 4. 初期表示
 ############################################################
-# サイドバーに表示
-with st.sidebar:
-    # タイトル表示
-    cn.display_app_title()
+# サイドバーの表示
+cn.display_sidebar()
 
-    # モード表示
-    cn.display_select_mode()
+# メイン画面の表示
+st.title(ct.APP_NAME)
 
-# AIメッセージの初期表示
-cn.display_initial_ai_message()
+# 初期メッセージ
+st.markdown(
+    '<div style="background-color: #d4f8d4; padding: 10px; border-radius: 5px;">'
+    'こんにちは。私は社内文書の情報をもとに回答する生成AIチャットボットです。'
+    'サイドバーで利用目的を選択し、画面下部のチャット欄からメッセージを送信してください。</div>',
+    unsafe_allow_html=True
+)
+
+# 注意メッセージ
+st.markdown(
+    '<div style="background-color: #fff3cd; padding: 10px; border-radius: 5px;">'
+    '⚠️ 具体的に入力したほうが期待通りの回答を得やすいです。</div>',
+    unsafe_allow_html=True
+)
 
 
 ############################################################

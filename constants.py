@@ -27,6 +27,7 @@ ERROR_ICON = ":material/error:"
 SPINNER_TEXT = "回答生成中..."
 
 
+
 # ==========================================
 # ログ出力系
 # ==========================================
@@ -117,3 +118,17 @@ NO_DOC_MATCH_MESSAGE = """
 CONVERSATION_LOG_ERROR_MESSAGE = "過去の会話履歴の表示に失敗しました。"
 GET_LLM_RESPONSE_ERROR_MESSAGE = "回答生成に失敗しました。"
 DISP_ANSWER_ERROR_MESSAGE = "回答表示に失敗しました。"
+
+# サイドバー関連の定数
+SIDEBAR_TITLE = "利用目的"
+SIDEBAR_OPTIONS = ["社内文書検索", "社内問い合わせ"]
+SIDEBAR_DOC_SEARCH_DESCRIPTION = """
+**【社内文書検索】を選択した場合**
+入力内容と関連性が高い社内文書のありかを検索できます。
+"""
+SIDEBAR_DOC_SEARCH_EXAMPLE = "**【入力例】** 社員の育成方針に関するMTGの議事録"
+SIDEBAR_INQUIRY_DESCRIPTION = """
+**【社内問い合わせ】を選択した場合**
+質問・要望に対して、社内文書の情報をもとに回答を得られます。
+"""
+SIDEBAR_INQUIRY_EXAMPLE = "**【入力例】** 人事部に所属している従業員情報を一覧化して"
