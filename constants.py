@@ -126,18 +126,14 @@ SIDEBAR_DOC_SEARCH_DESCRIPTION = """
 入力内容と関連性が高い社内文書のありかを検索できます。
 """
 SIDEBAR_DOC_SEARCH_EXAMPLE = """
-<b>
 【入力例】
 社員の育成方針に関するMTGの議事録"
-</b>
 """
 SIDEBAR_INQUIRY_DESCRIPTION = """
 質問・要望に対して、社内文書の情報をもとに回答を得られます。
 """
 SIDEBAR_INQUIRY_EXAMPLE = """
-<b>
 【入力例】
 人事部に所属している従業員情報を一覧化して
-</b>
 """
 

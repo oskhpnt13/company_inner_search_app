@@ -346,9 +346,9 @@ def display_sidebar():
         # 社内文書検索の説明を常に表示
         st.markdown("【「社内文書検索」を選択した場合】")
         st.info(ct.SIDEBAR_DOC_SEARCH_DESCRIPTION)
-        st.code(ct.SIDEBAR_DOC_SEARCH_EXAMPLE, language=None)
+        st.code("<b>【入力例】社員の育成方針に関するMTGの議事録</b>", language=None)
 
         # 社内問い合わせの説明を常に表示
         st.markdown("【「社内問い合わせ」を選択した場合】")
         st.info(ct.SIDEBAR_INQUIRY_DESCRIPTION)
-        st.code(ct.SIDEBAR_INQUIRY_EXAMPLE, language=None)
+        st.code("<b>【入力例】人事部に所属している従業員情報を一覧化して</b>", language=None)
