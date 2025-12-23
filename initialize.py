@@ -165,11 +165,14 @@ def load_data_sources():
     # ファイルとは別に、指定のWebページ内のデータも読み込み
     # 読み込み対象のWebページ一覧に対して処理
     for web_url in ct.WEB_URL_LOAD_TARGETS:
-        # 指定のWebページを読み込み
-        loader = WebBaseLoader(web_url)
-        web_docs = loader.load()
-        # for文の外のリストに読み込んだデータソースを追加
-        web_docs_all.extend(web_docs)
+        try:
+            # 指定のWebページを読み込み
+            loader = WebBaseLoader(web_url)
+            web_docs = loader.load()
+            web_docs_all.extend(web_docs)
+        except Exception as e:
+            logger.error(f"WebBaseLoader failed for URL {web_url}: {e}")
+
     # 通常読み込みのデータソースにWebページのデータを追加
     docs_all.extend(web_docs_all)
 
