@@ -340,7 +340,13 @@ def display_sidebar():
         st.header(ct.SIDEBAR_TITLE)
 
         # ラジオボタンを追加
-        purpose = st.radio("", ct.SIDEBAR_OPTIONS)
+        purpose = st.radio(
+            "利用目的",
+            ct.SIDEBAR_OPTIONS,
+            label_visibility="collapsed"
+        ) 
+        st.session_state.mode = purpose
+
         st.divider()  # ラインを追加
 
         # 社内文書検索の説明を常に表示
