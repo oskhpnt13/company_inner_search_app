@@ -138,10 +138,6 @@ def initialize_retriever():
             if "page" in doc.metadata:
                 doc.metadata["source"] += f" (ページNo. {doc.metadata['page']})"
 
-    # ベクターストアに登録する前のデータをログに出力
-    for doc in splitted_docs:
-        logger.info(f"Metadata: {doc.metadata}")  # メタデータを出力
-
     # ベクターストアの作成
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
 
@@ -159,6 +155,9 @@ def initialize_session_state():
         st.session_state.messages = []
         # 「LLMとのやりとり用」の会話ログを順次格納するリストを用意
         st.session_state.chat_history = []
+    else:
+        # モード切り替え時に messages を保持
+        st.session_state.messages = st.session_state.messages
 
 
 def load_data_sources():
