@@ -14,6 +14,7 @@ import unicodedata
 from dotenv import load_dotenv
 import streamlit as st
 from docx import Document
+from langchain_community.document_loaders import TextLoader
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
@@ -114,13 +115,12 @@ def initialize_retriever():
 
     # OSがWindowsの場合、Unicode正規化と、cp932（Windows用の文字コード）で表現できない文字を除去
     for doc in docs_all:
-        doc.page_content = adjust_string(doc.page_content)
-        for key in doc.metadata:
-            doc.metadata[key] = adjust_string(doc.metadata[key])
-    
+        if isinstance(doc.page_content, str):
+            doc.page_content = adjust_string(doc.page_content)
+
     # 埋め込みモデルの用意
     embeddings = OpenAIEmbeddings()
-    
+
     # チャンク分割用のオブジェクトを作成
     text_splitter = CharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
@@ -131,11 +131,23 @@ def initialize_retriever():
     # チャンク分割を実施
     splitted_docs = text_splitter.split_documents(docs_all)
 
+    # 各ドキュメントにページ番号を含むメタデータを追加
+    for doc in splitted_docs:
+        if hasattr(doc.metadata, "source") and doc.metadata["source"].endswith(".pdf"):
+            # PDFのページ番号を取得してメタデータに追加
+            if "page" in doc.metadata:
+                doc.metadata["source"] += f" (ページNo. {doc.metadata['page']})"
+
+    # ベクターストアに登録する前のデータをログに出力
+    for doc in splitted_docs:
+        logger.info(f"Metadata: {doc.metadata}")  # メタデータを出力
+
     # ベクターストアの作成
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
 
     # ベクターストアを検索するRetrieverの作成
     st.session_state.retriever = db.as_retriever(search_kwargs={"k": RETRIEVER_DOCUMENT_COUNT})
+
 
 
 def initialize_session_state():

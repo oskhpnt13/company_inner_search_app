@@ -145,86 +145,63 @@ def display_search_llm_response(llm_response):
     Returns:
         LLMからの回答を画面表示用に整形した辞書データ
     """
-    # LLMからのレスポンスに参照元情報が入っており、かつ「該当資料なし」が回答として返された場合
     if llm_response["context"] and llm_response["answer"] != ct.NO_DOC_MATCH_ANSWER:
 
         # ==========================================
         # ユーザー入力値と最も関連性が高いメインドキュメントのありかを表示
         # ==========================================
-        # LLMからのレスポンス（辞書）の「context」属性の中の「0」に、最も関連性が高いドキュメント情報が入っている
         main_file_path = llm_response["context"][0].metadata["source"]
 
         # 補足メッセージの表示
         main_message = "入力内容に関する情報は、以下のファイルに含まれている可能性があります。"
         st.markdown(main_message)
-        
+
         # 参照元のありかに応じて、適したアイコンを取得
         icon = utils.get_source_icon(main_file_path)
-        # ページ番号が取得できた場合のみ、ページ番号を表示（ドキュメントによっては取得できない場合がある）
+        # ページ番号が取得できた場合のみ、ページ番号を表示
         if "page" in llm_response["context"][0].metadata:
-            # ページ番号を取得
             main_page_number = llm_response["context"][0].metadata["page"]
-            # 「メインドキュメントのファイルパス」と「ページ番号」を表示
-            st.success(f"{main_file_path}", icon=icon)
+            st.success(f"{main_file_path} (ページNo.{main_page_number})", icon=icon)
         else:
-            # 「メインドキュメントのファイルパス」を表示
             st.success(f"{main_file_path}", icon=icon)
 
         # ==========================================
         # ユーザー入力値と関連性が高いサブドキュメントのありかを表示
         # ==========================================
-        # メインドキュメント以外で、関連性が高いサブドキュメントを格納する用のリストを用意
         sub_choices = []
-        # 重複チェック用のリストを用意
-        duplicate_check_list = []
+        duplicate_check_set = set()  # 重複チェック用（setのほうが高速・安全）
 
-        # ドキュメントが2件以上検索できた場合（サブドキュメントが存在する場合）のみ、サブドキュメントのありかを一覧表示
-        # 「source_documents」内のリストの2番目以降をスライスで参照（2番目以降がなければfor文内の処理は実行されない）
         for document in llm_response["context"][1:]:
-            # ドキュメントのファイルパスを取得
-            sub_file_path = document.metadata["source"]
-
-            # メインドキュメントのファイルパスと重複している場合、処理をスキップ（表示しない）
-            if sub_file_path == main_file_path:
-                continue
-            
-            # 同じファイル内の異なる箇所を参照した場合、2件目以降のファイルパスに重複が発生する可能性があるため、重複を除去
-            if sub_file_path in duplicate_check_list:
+            sub_file_path = document.metadata.get("source")
+            if not sub_file_path:
                 continue
 
-            # 重複チェック用のリストにファイルパスを順次追加
-            duplicate_check_list.append(sub_file_path)
-            
-            # ページ番号が取得できない場合のための分岐処理
+            # メインと同じパス、またはすでに追加済みならスキップ
+            if sub_file_path == main_file_path or sub_file_path in duplicate_check_set:
+                continue
+            duplicate_check_set.add(sub_file_path)
+
+            # sub_choices は dict で統一する（表示は後で文字列化）
+            sub_choice = {"source": sub_file_path}
+
+            # ページ番号があれば保持（キー名は page_number に統一）
             if "page" in document.metadata:
-                # ページ番号を取得
-                sub_page_number = document.metadata["page"]
-                # 「サブドキュメントのファイルパス」と「ページ番号」の辞書を作成
-                sub_choice = {"source": sub_file_path, "page_number": sub_page_number}
-            else:
-                # 「サブドキュメントのファイルパス」の辞書を作成
-                sub_choice = {"source": sub_file_path}
-            
-            # 後ほど一覧表示するため、サブドキュメントに関する情報を順次リストに追加
+                sub_choice["page_number"] = document.metadata["page"]
+
             sub_choices.append(sub_choice)
-        
+
         # サブドキュメントが存在する場合のみの処理
         if sub_choices:
-            # 補足メッセージの表示
             sub_message = "その他、ファイルありかの候補を提示します。"
             st.markdown(sub_message)
 
-            # サブドキュメントに対してのループ処理
             for sub_choice in sub_choices:
-                # 参照元のありかに応じて、適したアイコンを取得
-                icon = utils.get_source_icon(sub_choice['source'])
-                # ページ番号が取得できない場合のための分岐処理
+                icon = utils.get_source_icon(sub_choice["source"])
                 if "page_number" in sub_choice:
-                    # 「サブドキュメントのファイルパス」と「ページ番号」を表示
-                    st.info(f"{sub_choice['source']}", icon=icon)
+                    st.info(f'{sub_choice["source"]} (ページNo.{sub_choice["page_number"]})', icon=icon)
                 else:
-                    # 「サブドキュメントのファイルパス」を表示
-                    st.info(f"{sub_choice['source']}", icon=icon)
+                    st.info(f'{sub_choice["source"]}', icon=icon)
+
         
         # 表示用の会話ログに格納するためのデータを用意
         # - 「mode」: モード（「社内文書検索」or「社内問い合わせ」）
@@ -301,7 +278,7 @@ def display_contact_llm_response(llm_response):
                 # ページ番号を取得
                 page_number = document.metadata["page"]
                 # 「ファイルパス」と「ページ番号」
-                file_info = f"{file_path}"
+                file_info = f"{file_path}(ページNo.{page_number})"
             else:
                 # 「ファイルパス」のみ
                 file_info = f"{file_path}"
